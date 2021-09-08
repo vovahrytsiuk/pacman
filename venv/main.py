@@ -11,7 +11,6 @@ def main():
     pygame.init()
     # Create screen
     window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    window.fill(pygame.color.)
     # Set window title
     pygame.display.set_caption(TITLE)
     # Is game in progress
