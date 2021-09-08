@@ -3,6 +3,7 @@ import pygame
 # config
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+BLOCK_SIZE = 32
 
 TITLE = "PACMAN"
 
