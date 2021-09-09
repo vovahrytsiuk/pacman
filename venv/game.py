@@ -23,21 +23,16 @@ class Game(object):
         # roads for player
         self.horizontal_roads = pygame.sprite.Group()
         self.vertical_roads = pygame.sprite.Group()
-        self.roads = pygame.sprite.Group()
         for i, road in enumerate(field):
             for j, block in enumerate(road):
                 if block == 1:
-                    self.horizontal_roads.add(RoadBlock(j * BLOCK_SIZE + 8,
-                                                        i * BLOCK_SIZE + 8,
-                                                         16, 16, BLACK))
+                    self.horizontal_roads.add(RoadBlock(j * BLOCK_SIZE + BLOCK_SIZE / 4,
+                                                        i * BLOCK_SIZE + BLOCK_SIZE / 4,
+                                                         BLOCK_SIZE / 2, BLOCK_SIZE / 2, BLACK))
                 elif block == 2:
-                    self.vertical_roads.add(RoadBlock(j * BLOCK_SIZE + 8,
-                                                        i * BLOCK_SIZE + 8,
-                                                        16, 16, BLACK))
-                if not block == 0:
-                    self.roads.add(RoadBlock(j * BLOCK_SIZE + 8,
-                                                        i * BLOCK_SIZE + 8,
-                                                         16, 16, BLACK))
+                    self.vertical_roads.add(RoadBlock(j * BLOCK_SIZE + BLOCK_SIZE / 4,
+                                                        i * BLOCK_SIZE + BLOCK_SIZE / 4,
+                                                        BLOCK_SIZE / 2, BLOCK_SIZE / 2, BLACK))
         # create spirits
         self.spirits = pygame.sprite.Group()
         self.spirits.add(Spirit(288, 96, 0, 2, field))
@@ -111,8 +106,7 @@ class Game(object):
         if self.game_over:
             self.menu.display_menu(window)
         else:
-            self.horizontal_roads.draw(window)
-            self.vertical_roads.draw(window)
+            self.draw_field(window)
             self.dots_group.draw(window)
             self.spirits.draw(window)
             self.players.draw(window)
@@ -121,6 +115,18 @@ class Game(object):
             # Put the text on the screen
             window.blit(text, [150, 20])
         pygame.display.flip()
+
+    def draw_field(self, window):
+        self.horizontal_roads.draw(window)
+        self.vertical_roads.draw(window)
+        for i, road in enumerate(field):
+            for j, block in enumerate(road):
+                if block == 1:
+                    pygame.draw.line(window, RED, [j * 32, i * 32], [j * 32 + 32, i * 32], 3)
+                    pygame.draw.line(window, RED, [j * 32, i * 32 + 32], [j * 32 + 32, i * 32 + 32], 3)
+                elif block == 2:
+                    pygame.draw.line(window, RED, [j * 32, i * 32], [j * 32, i * 32 + 32], 3)
+                    pygame.draw.line(window, RED, [j * 32 + 32, i * 32], [j * 32 + 32, i * 32 + 32], 3)
 
 
 

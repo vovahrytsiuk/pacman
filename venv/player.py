@@ -5,7 +5,7 @@ from config import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, speed = 2):
+    def __init__(self, x, y, speed = 4):
         # Call super class initializer
         pygame.sprite.Sprite.__init__(self)
         # Load sprite from file
@@ -21,8 +21,6 @@ class Player(pygame.sprite.Sprite):
         self.left_animation = Animation(pygame.transform.flip(walk_image, True, False), BLOCK_SIZE, BLOCK_SIZE)
         self.up_animation = Animation(pygame.transform.rotate(walk_image, 90), BLOCK_SIZE, BLOCK_SIZE)
         self.down_animation = Animation(pygame.transform.rotate(walk_image, 270), BLOCK_SIZE, BLOCK_SIZE)
-        bang_image = pygame.image.load("images/bang.png").convert()
-        self.bang_animation = Animation(bang_image, BLOCK_SIZE, BLOCK_SIZE)
         self.pacman_image = pygame.image.load("images/pacman.png").convert()
         self.pacman_image.set_colorkey(BLACK)
         self.d_x = 0
@@ -45,16 +43,16 @@ class Player(pygame.sprite.Sprite):
     def animation(self):
         # start animation
         if self.d_x > 0:
-            self.right_animation.animate(5)
+            self.right_animation.animate(ANIMATION_SPEED)
             self.image = self.right_animation.get_current_image()
         elif self.d_x < 0:
-            self.left_animation.animate(5)
+            self.left_animation.animate(ANIMATION_SPEED)
             self.image = self.left_animation.get_current_image()
         if self.d_y > 0:
-            self.down_animation.animate(5)
+            self.down_animation.animate(ANIMATION_SPEED)
             self.image = self.down_animation.get_current_image()
         elif self.d_y < 0:
-            self.up_animation.animate(5)
+            self.up_animation.animate(ANIMATION_SPEED)
             self.image = self.up_animation.get_current_image()
 
     def move(self, horizontal_roads, vertical_roads):
