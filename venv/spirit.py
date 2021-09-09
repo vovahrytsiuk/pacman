@@ -1,5 +1,5 @@
 import pygame
-import main.py
+from config import *
 import random
 
 class Spirit(pygame.sprite.Sprite):
@@ -9,9 +9,9 @@ class Spirit(pygame.sprite.Sprite):
         self.d_x = d_x
         self.d_y = d_y
         # upload sprite
-        self.image = pygame.image.load("spirit.png").convert_alpha()
+        self.image = pygame.image.load("images/spirit.png").convert_alpha()
         self.rect = self.image.get_rect()
-        self.rect.topleft(start_x, start_y)
+        self.rect.topleft = (start_x, start_y)
         self.field = field
         self.speed = speed
 

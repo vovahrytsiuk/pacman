@@ -1,11 +1,8 @@
 import pygame
+from game import Game
+from config import *
 
-# config
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-BLOCK_SIZE = 32
 
-TITLE = "PACMAN"
 
 def main():
     # Initialize pygame
@@ -16,10 +13,16 @@ def main():
     pygame.display.set_caption(TITLE)
     # Is game in progress
     is_in_progress = True
-    pygame.display.flip()
+    # for control fps
+    clock = pygame.time.Clock()
+    game = Game()
+
     # Main game loop
     while is_in_progress:
-        pass
+        is_in_progress = game.process_events()
+        game.game_logic()
+        game.display_game(window)
+        clock.tick(30)
     # quit when user press quit button
     pygame.quit()
 

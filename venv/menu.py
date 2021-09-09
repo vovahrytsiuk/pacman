@@ -1,19 +1,19 @@
 import pygame
-import main.py
+from config import *
 
 class Menu(object):
     # state id display current item on menu bar
     current_item = 0
     # initialize menu class
-    def __init__(self):
+    def __init__(self, items, font_color=(255, 255, 255), selected_item_color=(0, 255, 0), font_size=25):
         # menu color
-        self.font_color = None
+        self.font_color = font_color
         # color of selected item
-        self.selected_item_color = None
+        self.selected_item_color = selected_item_color
         # variants in menu
-        self.items = None
+        self.items = items
         # font for displaying menu
-        self.font = None
+        self.font = pygame.font.Font(None, font_size)
 
     def handle_events(self, event):
         # here i gonna process K_DOWN and K_UP to communicate with menu bar
