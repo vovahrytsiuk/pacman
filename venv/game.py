@@ -15,7 +15,7 @@ class Game(object):
         # font for score displaying
         self.font = pygame.font.Font(None, 35)
         # create menu bar
-        self.menu = Menu(("Start", "Exit"), font_size=60)
+        self.menu = Menu(("Restart", "Exit"), font_size=60)
         # create player
         self.players = pygame.sprite.Group()
         self.player = Player(448, 320)
@@ -36,6 +36,8 @@ class Game(object):
         # create spirits
         self.spirits = pygame.sprite.Group()
         self.spirits.add(Spirit(288, 96, 0, 2, field))
+        self.spirits.add(Spirit(160, 64, 2, 0, field, 1))
+        self.spirits.add(Spirit(640, 448, 2, 0, field, 4))
         # to do add more spirits
         # eat for player
         self.dots_group = pygame.sprite.Group()
@@ -49,7 +51,8 @@ class Game(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-            self.menu.handle_events(event)
+            if self.game_over:
+                self.menu.handle_events(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if self.game_over:
@@ -122,11 +125,11 @@ class Game(object):
         for i, road in enumerate(field):
             for j, block in enumerate(road):
                 if block == 1:
-                    pygame.draw.line(window, RED, [j * 32, i * 32], [j * 32 + 32, i * 32], 3)
-                    pygame.draw.line(window, RED, [j * 32, i * 32 + 32], [j * 32 + 32, i * 32 + 32], 3)
+                    pygame.draw.line(window, RED, [j * BLOCK_SIZE, i * BLOCK_SIZE], [(j + 1) * BLOCK_SIZE, i * BLOCK_SIZE], 5)
+                    pygame.draw.line(window, RED, [j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE], [(j + 1) * BLOCK_SIZE, (i + 1) * BLOCK_SIZE], 5)
                 elif block == 2:
-                    pygame.draw.line(window, RED, [j * 32, i * 32], [j * 32, i * 32 + 32], 3)
-                    pygame.draw.line(window, RED, [j * 32 + 32, i * 32], [j * 32 + 32, i * 32 + 32], 3)
+                    pygame.draw.line(window, RED, [j * BLOCK_SIZE, i * BLOCK_SIZE], [j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE], 5)
+                    pygame.draw.line(window, RED, [(j + 1) * BLOCK_SIZE, i * BLOCK_SIZE], [(j + 1) * BLOCK_SIZE, (i + 1) * BLOCK_SIZE], 5)
 
 
 
