@@ -1,0 +1,17 @@
+from field import *
+# config
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+BLOCK_SIZE = 32
+PACMAN_SIZE = 25
+ANIMATION_SPEED = 5
+
+TITLE = "PACMAN"
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+
+field = Field(25, 18).get_field()
