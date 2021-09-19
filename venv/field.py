@@ -3,9 +3,7 @@ import random
 from config import *
 
 class Field(object):
-    algorithms = ["BFS", "DFS", "UCS"]
-    current_algorithm_index = 0
-    def __init__(self, column_number, row_number, vertical_ratio=0.3, horizontal_ratio=0.3):
+    def __init__(self, column_number, row_number, vertical_ratio=0.3, horizontal_ratio=0.5):
         # generate field
         self.column_number = column_number
         self.row_number = row_number
@@ -18,16 +16,23 @@ class Field(object):
     def get_current_algorithm(self):
         return self.algorithms[self.current_algorithm_index]
 
+    def get_random_position(self):
+        random_row = -1
+        random_column = -1
+        is_available = False
+        while not is_available:
+            random_row = random.randint(1, self.row_number - 1)
+            random_column = random.randint(1, self.column_number - 1)
+            if self.field[random_row][random_column] != 0:
+                is_available = True
+        return [random_row, random_column]
+
     def get_field(self):
         return self.field
 
-    def switch_algorithm(self):
-        self.current_algorithm_index += 1
-        self.current_algorithm_index %= len(self.algorithms)
-
     def generate_columns(self):
         columns = []
-        for i in range(0, self.column_number):
+        for i in range(1, self.column_number - 1):
             random_number = random.randint(0, 100)
             if random_number < 100 * self.vertical_ratio:
                 columns.append(i)
@@ -35,7 +40,7 @@ class Field(object):
 
     def generate_rows(self):
         rows = []
-        for i in range(0, self.row_number):
+        for i in range(1, self.row_number - 1):
             random_number = random.randint(0, 100)
             if random_number < 100 * self.horizontal_ratio:
                 rows.append(i)
