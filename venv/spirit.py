@@ -3,16 +3,18 @@ from config import *
 import random
 
 class Spirit(pygame.sprite.Sprite):
-    def __init__(self, start_x, start_y, d_x, d_y, field, speed = 2):
+    d_x = 0
+    d_y = 0
+
+    def __init__(self, start_x, start_y, field, speed = 2):
         pygame.sprite.Sprite.__init__(self)
+        self.field = field
         # set direction of movement
-        self.d_x = d_x
-        self.d_y = d_y
+        self.start_direction(start_x, start_y)
         # upload sprite
         self.image = pygame.image.load("images/spirit.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.topleft = (start_x, start_y)
-        self.field = field
         self.speed = speed
 
     def make_step(self):
@@ -60,5 +62,29 @@ class Spirit(pygame.sprite.Sprite):
         self.make_step()
         self.step_in_extreme_positions()
         self.change_directions()
+
+    def start_direction(self, start_x, start_y):
+        x = int(start_x / BLOCK_SIZE)
+        y = int(start_y / BLOCK_SIZE)
+        # find first available direction
+        # dx = -1 dy = 0
+        if self.field[y][x - 1] is 1 or self.field[y][x - 1] is 3:
+            self.d_x = -1
+            self.d_y = 0
+        # dx = 1 dy = 0
+        elif self.field[y][x + 1] is 1 or self.field[y][x + 1] is 3:
+            self.d_x = 1
+            self.d_y = 0
+        # dx = 0 dy = -1
+        elif self.field[y - 1][x] is 2 or self.field[y - 1][x] is 3:
+            self.d_x = 0
+            self.d_y = -1
+        # dx = 0 dy = 1
+        elif self.field[y + 1][x] is 2 or self.field[y + 1][x] is 3:
+            self.d_x = 0
+            self.d_y = 1
+
+
+
 
 
