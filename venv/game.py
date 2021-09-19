@@ -7,6 +7,12 @@ from road_block import RoadBlock
 from dot import Dot
 from spirit import Spirit
 
+def get_random_coordinates():
+    r_x, r_y = field.get_random_position()
+    r_x *= BLOCK_SIZE
+    r_y *= BLOCK_SIZE
+    return [r_x, r_y]
+
 class Game(object):
     def __init__(self):
         # score variable
@@ -18,12 +24,13 @@ class Game(object):
         self.menu = Menu(("Restart", "Exit"), font_size=60)
         # create player
         self.players = pygame.sprite.Group()
-        self.player = Player(448, 320)
+        player_coordinates = get_random_coordinates()
+        self.player = Player(player_coordinates[1], player_coordinates[0])
         self.players.add(self.player)
         # roads for player
         self.horizontal_roads = pygame.sprite.Group()
         self.vertical_roads = pygame.sprite.Group()
-        for i, road in enumerate(field):
+        for i, road in enumerate(field.get_field()):
             for j, block in enumerate(road):
                 if block == 1:
                     self.horizontal_roads.add(RoadBlock(j * BLOCK_SIZE + BLOCK_SIZE / 4,
@@ -35,13 +42,16 @@ class Game(object):
                                                         BLOCK_SIZE / 2, BLOCK_SIZE / 2, BLACK))
         # create spirits
         self.spirits = pygame.sprite.Group()
-        self.spirits.add(Spirit(288, 96, 0, 2, field))
-        self.spirits.add(Spirit(160, 64, 2, 0, field, 1))
-        self.spirits.add(Spirit(640, 448, 2, 0, field, 4))
+        spirit_coordinates = get_random_coordinates()
+        self.spirits.add(Spirit(spirit_coordinates[1], spirit_coordinates[0], field.get_field()))
+        spirit_coordinates = get_random_coordinates()
+        self.spirits.add(Spirit(spirit_coordinates[1], spirit_coordinates[0], field.get_field(), 1))
+        spirit_coordinates = get_random_coordinates()
+        self.spirits.add(Spirit(spirit_coordinates[1], spirit_coordinates[0], field.get_field(), 4))
         # to do add more spirits
         # eat for player
         self.dots_group = pygame.sprite.Group()
-        for i, road in enumerate(field):
+        for i, road in enumerate(field.get_field()):
             for j, block in enumerate(road):
                 if block != 0:
                     self.dots_group.add(Dot(j * BLOCK_SIZE + 12, i * BLOCK_SIZE + 12,
@@ -122,7 +132,7 @@ class Game(object):
     def draw_field(self, window):
         self.horizontal_roads.draw(window)
         self.vertical_roads.draw(window)
-        for i, road in enumerate(field):
+        for i, road in enumerate(field.get_field()):
             for j, block in enumerate(road):
                 if block == 1:
                     pygame.draw.line(window, RED, [j * BLOCK_SIZE, i * BLOCK_SIZE], [(j + 1) * BLOCK_SIZE, i * BLOCK_SIZE], 5)
